@@ -1,6 +1,8 @@
 ## having example data
 
-examplefile <- "3a_PVT1For.ab1"
+# the example file was orginally sequenced from Moriarity Lab work,
+  # original file was 3a_PVT1For
+examplefile <- "example.ab1"
 exampleguide <- "CACTGGAATGACACACGCCC"
 
 shinyServer(
