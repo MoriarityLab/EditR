@@ -8,11 +8,11 @@ EditR is an algorithm for predicting potential editing in a guide RNA region fro
 
 
 
-It consists of the algorithm implemented in the R statistical programming language and provided as a Shiny app built to make this algorithm easy to use. 
+It consists of the algorithm implemented in the R statistical programming language and provided as a Shiny app built to make this algorithm easy to use.
 
 
 
-!(Example data loaded in EditR)[./assets/editr-screenshot.png]
+![Example data loaded in EditR](./assets/editr-screenshot.png)
 
 
 
