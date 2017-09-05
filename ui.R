@@ -40,26 +40,6 @@ shinyUI(
                 tabPanel("Instructions",
                          includeMarkdown("instructions.md")),
                 
-                #### Predicted editing tab
-                tabPanel("Predicted Editing", 
-                         h2("Table plot"),
-                         plotOutput(outputId = "editing.table.plot"),
-                         h2("Plot of where editing has likely ocurred"),
-                         p("Line denotes significance cutoff."),
-                         plotOutput(outputId = "editing.quad.plot"),
-                         h2("Editing output table"),
-                         p("This table provides the numbers used to greate the plots above.
-                           P-values that are 0 are a result of computer rounding error. They are just really small numbers."),
-                         # tableOutput("editingtable"),
-                         tableOutput("editingtable"),
-                         h3("Model diagnostics"),
-                         p("Filliben's correlation for each model. This assesses the goodness of fit of the model to the noise.
-                           Values lower than 0.95 suggest that you might want to use custom filtering to remove poor quality sections of your sequencing."),
-                         tableOutput("modelfits")
-                         # h2("Editing data table"),
-                         # tableOutput("editingdf")
-                ),                
-                
                 #### Data QC tab
                 tabPanel("Data QC output",
                          h3("Total peak area before filtering"),
@@ -90,9 +70,28 @@ shinyUI(
                             The shaded region is where the gRNA matches, which might have a peak due to base editing."),
                          h3("Guide RNA region Chromatogram"),
                          plotOutput(outputId = "chromatogram")
-                         ),
+                ),
                 
-
+                #### Predicted editing tab
+                tabPanel("Predicted Editing", 
+                         h2("Table plot"),
+                         plotOutput(outputId = "editing.table.plot"),
+                         h2("Plot of where editing has likely ocurred"),
+                         p("Line denotes significance cutoff."),
+                         plotOutput(outputId = "editing.quad.plot"),
+                         h2("Editing output table"),
+                         p("This table provides the numbers used to greate the plots above.
+                           P-values that are 0 are a result of computer rounding error. They are just really small numbers."),
+                         # tableOutput("editingtable"),
+                         tableOutput("editingtable"),
+                         h3("Model diagnostics"),
+                         p("Filliben's correlation for each model. This assesses the goodness of fit of the model to the noise.
+                           Values lower than 0.95 suggest that you might want to use custom filtering to remove poor quality sections of your sequencing."),
+                         tableOutput("modelfits")
+                         # h2("Editing data table"),
+                         # tableOutput("editingdf")
+                ),                
+                
                 
                 #### Report download tab
                 tabPanel("Download Report",

@@ -71,25 +71,9 @@ shinyServer(
       
       
       ### creating a sanger sequencing data.frame
-      sangs <- as.data.frame(input.peakampmatrix)
-      names(sangs) <- c("A.area","C.area","G.area","T.area")
-      
-      # adding total area, and then calculating the percent area of each base
-      sangs %<>% 
-        mutate(Tot.area = A.area + C.area + G.area + T.area,
-               A.perc = 100*A.area / Tot.area,
-               C.perc = 100*C.area / Tot.area,
-               G.perc = 100*G.area / Tot.area,
-               T.perc = 100*T.area / Tot.area) 
-      
-      # adding on base calls
-      sangs$base.call <- strsplit(x = toString(input.basecalls@primarySeq), split = "") %>%
-        unlist
-      
-      # adding an index
-      sangs$index <- seq_along(sangs$base.call)
-      
-      sangs
+      sangs <- CreateSangs(input.peakampmatrix, input.basecalls)
+    
+      return(sangs)
     })
 
     
@@ -175,30 +159,10 @@ shinyServer(
       guide <- guideReactive()
       null.m.params <- nullparams.Reactive()
       
-      guide.df <- sangs[guide.coord$start:guide.coord$end,]
       
-      # adding the guide sequence onto the data.frame
-      guide.df$guide.seq <- guide %>% toString() %>% strsplit(. , "") %>% unlist
+      editing.df <- CreateEditingDF(guide.coord, guide, sangs, null.m.params)
       
-      
-      # usage (params = null.m.params$t, perc = guide.df$T.perc)
-      calcBaseProb <- function(params, perc){
-        outprobs <- pZAGA(q = perc,
-                          mu = params$mu,
-                          sigma = params$sigma,
-                          nu = params$nu,
-                          lower.tail = FALSE)
-        return(outprobs)
-      }
-      
-      guide.df$T.pval <- calcBaseProb(params = null.m.params$t, perc = guide.df$T.perc)
-      guide.df$C.pval <- calcBaseProb(params = null.m.params$c, perc = guide.df$C.perc)
-      guide.df$G.pval <- calcBaseProb(params = null.m.params$g, perc = guide.df$G.perc)
-      guide.df$A.pval <- calcBaseProb(params = null.m.params$a, perc = guide.df$A.perc)
-      
-      guide.df$guide.position <- seq_along(guide.df$guide.seq)
-      
-      guide.df
+      return(editing.df)
     })
     
     

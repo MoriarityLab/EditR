@@ -132,7 +132,7 @@ GetNullDistModel <- function(sangs.filt, guide.coord)
 }
 
 
-CreateEditingDF <- function(guide.coord, sangs, null.m.params){
+CreateEditingDF <- function(guide.coord, guide, sangs, null.m.params){
   # this function creates the editing.df that contains the prob that the peak areas 
   # are not part of the noise distibution
   
