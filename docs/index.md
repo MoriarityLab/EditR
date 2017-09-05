@@ -53,4 +53,4 @@ We have [an instance on shinyapps.io here](https://dnedveck.shinyapps.io/editr/)
 
 If there are issues with R, R Studio, installing R packages, or Shiny, please search for the error in your search engine of choice.
 
-If you run into a problem with EditR, please feel free to [submit and issue on GitHub](https://github.com/MoriarityLab/EditR/issues), or contact us below:
+If you run into a problem with EditR, please feel free to [submit and issue on GitHub](https://github.com/MoriarityLab/EditR/issues), or contact us at baseeditr@gmail.com
