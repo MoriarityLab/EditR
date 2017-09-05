@@ -2,7 +2,7 @@ shinyUI(
   
   fluidPage(
 
-  titlePanel("EditR"),
+  titlePanel("EditR -- Version 2017-09-05_alpha"),
   
   sidebarPanel(
     p("You will need to supply your Sanger sequencing results file, as well as the guide sequence.
