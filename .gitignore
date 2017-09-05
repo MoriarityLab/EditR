@@ -1,0 +1,8 @@
+# ignoring dir to deploy shiny app
+rsconnect/
+
+# ignoring other R stuff
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
