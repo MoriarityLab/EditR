@@ -53,4 +53,10 @@ We have [an instance on shinyapps.io here](https://dnedveck.shinyapps.io/editr/)
 
 If there are issues with R, R Studio, installing R packages, or Shiny, please search for the error in your search engine of choice.
 
-If you run into a problem with EditR, please feel free to [submit and issue on GitHub](https://github.com/MoriarityLab/EditR/issues).
+If you run into a problem with EditR, please feel free to [submit and issue on GitHub](https://github.com/MoriarityLab/EditR/issues), or contact us below:
+
+<form method="POST" action="http://formspree.io/baseeditr@gmail.com">
+  <input type="email" name="email" placeholder="Your email">
+  <textarea name="message" placeholder="Your message"></textarea>
+  <button type="submit">Send</button>
+</form>
