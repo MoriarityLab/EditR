@@ -76,6 +76,11 @@ shinyUI(
                 tabPanel("Predicted Editing", 
                          h2("Table plot"),
                          plotOutput(outputId = "editing.table.plot"),
+                         h3("Base info"),
+                         p("mu in the table below is a measure of dispersion around the estimates for the percent editing.
+                           Since EditR is run on only one Sanger sequencing run, we cannot give a confidence interval
+                           around the estimate of the percent editing."),
+                         tableOutput(outputId = "baseinfo.table"), 
                          h2("Plot of where editing has likely ocurred"),
                          p("Line denotes significance cutoff."),
                          plotOutput(outputId = "editing.quad.plot")

@@ -144,7 +144,9 @@ Here's information about the signal of each base, the critical percent value whe
 
 ```{r}
 temp <- base.info
-names(temp) <- c("Base", "Average percent signal", "Average peak area",  "Critical percent value", "Fillibens correlation")
+names(temp) <- c("Base", "Average percent signal", 
+                 "Average peak area",  "Critical percent value",
+                 "model mu",  "Fillibens correlation")
 row.names(temp) <- NULL
 
 knitr::kable(temp)

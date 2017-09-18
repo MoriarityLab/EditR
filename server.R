@@ -324,11 +324,27 @@ shinyServer(
                   lower.tail = FALSE)
         )
       # getting fillibens
-      
       fil <- lapply(null.m.params, FUN = function(x){x$fillibens})
       filvec <- c(a = fil$a, c = fil$c, g = fil$g, t = fil$t)
       
-      return(data.frame(avg.base, crit.perc.area = crit.vals, fillibens = filvec))
+      # getting mu -- a measure of dispersion
+      mul <- lapply(null.m.params, FUN = function(x){x$mu})
+      mulvec <- c(a = mul$a, c = mul$c, g = mul$g, t = mul$t)
+      
+      return(data.frame(avg.base, crit.perc.area = crit.vals, mu = mulvec, fillibens = filvec))
+    })
+    
+    
+    output$baseinfo.table <- renderTable({
+      base.info <- base.infoReactive()
+      
+      temp <- base.info
+      names(temp) <- c("Base", "Average percent signal",
+                       "Average peak area",  "Critical percent value",
+                       "model mu",  "Fillibens correlation")
+      row.names(temp) <- NULL
+      
+      return(temp)
     })
     
     ##############################################
