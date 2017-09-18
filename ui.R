@@ -2,7 +2,7 @@ shinyUI(
   
   fluidPage(
 
-  titlePanel("EditR -- Version 2017-09-05_alpha"),
+  titlePanel("EditR -- Version 2017-09-18_alpha"),
   
   sidebarPanel(
     p("You will need to supply your Sanger sequencing results file, as well as the guide sequence.
@@ -41,7 +41,7 @@ shinyUI(
                          includeMarkdown("instructions.md")),
                 
                 #### Data QC tab
-                tabPanel("Data QC output",
+                tabPanel("Data QC",
                          h3("Total peak area before filtering"),
                          plotOutput(outputId = "prefilter.totalarea"),
                          p("This plot shows the total peak area at each positon before QC filtering. 
@@ -78,18 +78,7 @@ shinyUI(
                          plotOutput(outputId = "editing.table.plot"),
                          h2("Plot of where editing has likely ocurred"),
                          p("Line denotes significance cutoff."),
-                         plotOutput(outputId = "editing.quad.plot"),
-                         h2("Editing output table"),
-                         p("This table provides the numbers used to greate the plots above.
-                           P-values that are 0 are a result of computer rounding error. They are just really small numbers."),
-                         # tableOutput("editingtable"),
-                         tableOutput("editingtable"),
-                         h3("Model diagnostics"),
-                         p("Filliben's correlation for each model. This assesses the goodness of fit of the model to the noise.
-                           Values lower than 0.95 suggest that you might want to use custom filtering to remove poor quality sections of your sequencing."),
-                         tableOutput("modelfits")
-                         # h2("Editing data table"),
-                         # tableOutput("editingdf")
+                         plotOutput(outputId = "editing.quad.plot")
                 ),                
                 
                 

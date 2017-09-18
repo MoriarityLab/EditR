@@ -285,6 +285,52 @@ shinyServer(
     })
     
     
+    base.infoReactive <- reactive({
+      # this reactive is collecting information on each base:
+      # - average percent signal
+      # critical value for each base for the cutoff of significance
+      
+      sangs.filt <- sangs.filtReactive()
+      null.m.params <- nullparams.Reactive()
+      p.val.cutoff <- p.val.Reactive()
+      
+      # finding the average percent signal for each base
+      avg.base <- sangs.filt %>% gather(key = focal.base, value = value, 
+                                A.area:T.area, A.perc:T.perc) %>%
+        separate(col = focal.base, into = c("focal.base", "measure")) %>% 
+        spread(key = measure, value = value) %>% 
+        filter(base.call == focal.base) %>% 
+        group_by(focal.base) %>% 
+        summarize(avg.percsignal = mean(perc),
+                  avg.areasignal = mean(area))
+      
+      # getting the critical value for each base
+      crit.vals <- c(
+        a = qZAGA(p = p.val.cutoff, mu = null.m.params$a$mu,
+            sigma = null.m.params$a$sigma,
+            nu = null.m.params$a$nu,
+            lower.tail = FALSE),
+        c = qZAGA(p = p.val.cutoff, mu = null.m.params$c$mu,
+                  sigma = null.m.params$c$sigma,
+                  nu = null.m.params$c$nu,
+                  lower.tail = FALSE),
+        g = qZAGA(p = p.val.cutoff, mu = null.m.params$g$mu,
+                  sigma = null.m.params$g$sigma,
+                  nu = null.m.params$g$nu,
+                  lower.tail = FALSE),
+        t = qZAGA(p = p.val.cutoff, mu = null.m.params$t$mu,
+                  sigma = null.m.params$t$sigma,
+                  nu = null.m.params$t$nu,
+                  lower.tail = FALSE)
+        )
+      # getting fillibens
+      
+      fil <- lapply(null.m.params, FUN = function(x){x$fillibens})
+      filvec <- c(a = fil$a, c = fil$c, g = fil$g, t = fil$t)
+      
+      return(data.frame(avg.base, crit.perc.area = crit.vals, fillibens = filvec))
+    })
+    
     ##############################################
     output$editing.table.plot <- renderPlot({
       editing.df <- editing.Reactive()
@@ -396,7 +442,8 @@ shinyServer(
                        p.val.cutoff = p.val.Reactive(),
                        input.seq = input.seqReactive(),
                        sangs = sangsReactive(),
-                       sangs.filt = sangs.filtReactive())
+                       sangs.filt = sangs.filtReactive(),
+                       base.info = base.infoReactive())
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
