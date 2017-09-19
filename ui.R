@@ -76,14 +76,29 @@ shinyUI(
                 tabPanel("Predicted Editing", 
                          h2("Table plot"),
                          plotOutput(outputId = "editing.table.plot"),
+                         p("This plot shows the percent area of the signal for each base (ACGT) at each position along
+                           the guide. Bases that are significantly different from the noise are colored in, color coded
+                           relative to their percent area. Most positions of the guide only have one base colored in, as there
+                           this is due to only one peak being present at that position. In the case of editing, there are more 
+                           than one base colored in at a position."),
                          h3("Base info"),
-                         p("mu in the table below is a measure of dispersion around the estimates for the percent editing.
-                           Since EditR is run on only one Sanger sequencing run, we cannot give a confidence interval
-                           around the estimate of the percent editing."),
+                         p("You can use the information in the following table to better understand the values given for the percent
+                           area in the 'Table plot'. The average percent signal shows you the average percent area (area of signal / all
+                           other base areas), and (100 - average percent signal) shows you how much noise is present during the reading 
+                           of that base. The amount of noise present in each base is also reflected in the 'Critical percent value', 
+                           which is the critical value for the percent area for that base -- any percent area value above that would 
+                           be called significantly different from the noise, and therefore editing has occurred. This critical value is 
+                           calculated based on the P-value cutoff specified (default is 0.01). The model mu is the mu term for the zero
+                            adjusted gamma distribution to model the noise -- a higher value of mu means that the predicted editing value
+                            is less accurate. Filliben's correlation is how well the noise is modelled by a zero adjusted gamma 
+                           distribution. Lower values of Filliben's correlation means less confidence in EditR for predicting editing,
+                           your values should be above 0.90."),
                          tableOutput(outputId = "baseinfo.table"), 
-                         h2("Plot of where editing has likely ocurred"),
-                         p("Line denotes significance cutoff."),
-                         plotOutput(outputId = "editing.quad.plot")
+                         h2("Quad plot"),
+                         plotOutput(outputId = "editing.quad.plot"),
+                         p("This plot shows the percent area of the background bases (the bases that 
+                           were not the guide squence), the line denotes the crtical value cutoff based on the P-value
+                           cutoff specified (default is 0.010.")
                 ),                
                 
                 
@@ -91,9 +106,11 @@ shinyUI(
                 tabPanel("Download Report",
                          h2("Download html report here"),
                          p("Click the button below to download a html report of the
-                           predicted editing for the sequence that you uploaded. The
-                           report may take some time to generate as all the calculations
-                           need to be rerun. Please be patient."),
+                           predicted editing for the sequence that you uploaded. The report contains table output 
+                          of the guide region, with the calculated probability of each base being from the noise at each position
+                          and the base info table as well. Additionally, the editing table and the base information table are 
+                          output in R syntax so you can copy them and bring them into your own R session.
+Please be patient, as the report may take some time to download as it needs to be compiled."),
                          downloadButton('downloadReport')
                          )
                 
