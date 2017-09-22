@@ -21,7 +21,8 @@ shinyUI(
                      ),
     
     p("Specify custom amounts to trim the input sanger sequence by.
-      Check the QC plot of signal / noise post filtering to pick values -- mouse over the plot for index numbers"),
+      Check the QC plot of signal / noise post filtering to pick values -- mouse over the plot for index numbers.
+      Note: aggressive trimming may lead to inaccurate P-values, make sure to trim to the region that represents the majority of your sample."),
     numericInput(inputId ="trim5", label = "5' start", value = NA),
     numericInput(inputId ="trim3", label = "3' end", value = NA),
     p("Please enter your cutoff probability (p-value for significance), see instructions for details"),
