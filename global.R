@@ -1,3 +1,6 @@
+# version
+editrversion <- "1.0.0"
+
 # loading all the packages into the global environment
 
 library(shiny)

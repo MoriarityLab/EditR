@@ -459,7 +459,8 @@ shinyServer(
                        input.seq = input.seqReactive(),
                        sangs = sangsReactive(),
                        sangs.filt = sangs.filtReactive(),
-                       base.info = base.infoReactive())
+                       base.info = base.infoReactive(),
+                       editrversion = editrversion)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document

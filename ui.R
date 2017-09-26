@@ -2,7 +2,7 @@ shinyUI(
   
   fluidPage(
 
-  titlePanel("EditR -- Version 2017-09-18_alpha"),
+  titlePanel(paste0("EditR v", editrversion) ),
   
   sidebarPanel(
     p("You will need to supply your Sanger sequencing results file, as well as the guide sequence.
@@ -70,7 +70,10 @@ shinyUI(
                          p("This plot shows the amount of noise at a base position as the percent of the total peak area.
                             The shaded region is where the gRNA matches, which might have a peak due to base editing."),
                          h3("Guide RNA region Chromatogram"),
-                         plotOutput(outputId = "chromatogram")
+                         plotOutput(outputId = "chromatogram"),
+                         p("Chromatogram generated from the guide region. Shaded region shows where a double 
+                           peak was detected during basecalling, although editing can still occur if a double 
+                           peak was not detected.")
                 ),
                 
                 #### Predicted editing tab
@@ -93,7 +96,8 @@ shinyUI(
                             adjusted gamma distribution to model the noise -- a higher value of mu means that the predicted editing value
                             is less accurate. Filliben's correlation is how well the noise is modelled by a zero adjusted gamma 
                            distribution. Lower values of Filliben's correlation means less confidence in EditR for predicting editing,
-                           your values should be above 0.90."),
+                           your values should be above 0.90, if not, this means that your sequencing file likely has problems
+                           with data quality."),
                          tableOutput(outputId = "baseinfo.table"), 
                          h2("Quad plot"),
                          plotOutput(outputId = "editing.quad.plot"),

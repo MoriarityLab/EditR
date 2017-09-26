@@ -1,5 +1,5 @@
 ---
-title: "Predicted editing report"
+title: "EditR v`r editrversion` report"
 output: 
   html_document: 
     toc: yes
@@ -13,6 +13,7 @@ params:
   sangs: NA
   sangs.filt: NA
   base.info: NA
+  editrversion: NA
 ---
 
 ```{r echo = FALSE, message=FALSE}
@@ -30,7 +31,10 @@ input.seq <- params$input.seq
 sangs <- params$sangs
 sangs.filt <- params$sangs.filt
 base.info <- params$base.info
+editrversion <- params$editrversion
 ```
+
+
 
 ## Data QA
 
@@ -246,20 +250,5 @@ dput(editing.df)
 
 
 
-<!-- #### Debug -->
-
-<!-- If you can see this, it means that Derek didn't comment this out. -->
-
-<!-- ![](http://www.reactiongifs.us/wp-content/uploads/2015/04/nothing_to_see_here_naked_gun.gif) -->
-
-<!-- This is what I loaded in: -->
-
-<!-- ```{r} -->
-<!-- str(params) -->
-<!-- ``` -->
-
-
-<!-- ```{r} -->
-<!-- sessionInfo() -->
-<!-- ``` -->
+*Report generated using EditR v`r editrversion`*
 
