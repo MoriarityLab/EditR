@@ -6,7 +6,7 @@ The goal of this software is to predict where base editing is occurring in a spe
 
 If our software helps you -- please cite us!
 
-Kluesner MG, Nedveck DA, Lahr WS, Garbe J, Abrahante J, Webber B, Moriarty BS.  **Simple and cost effective quantitative assessment of base editing by quantification of Sanger trace fluorescence.** *Nucleic Acids Research.* *In review*
+Kluesner MG, Nedveck DA, Lahr WS, Garbe J, Abrahante J, Webber B, Moriarty BS.  **EditR: A novel base editing quantification software using Sanger sequencing** *Nucleic Acids Research.* *In review*
 
 ## Running the prediction software
 
