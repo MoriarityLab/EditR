@@ -36,7 +36,7 @@ You can use the R Shiny App in two ways: through and instance on shinyapps.io, o
 
 ### Testing it out on shinyapps.io
 
-We have [an instance on shinyapps.io here](https://dnedveck.shinyapps.io/editr/). If it’s not working, it’s likely that we used up our usage for the month, and you will have to install EditR locally.
+We have [an instance on shinyapps.io here](https://moriaritylab.shinyapps.io/editr-master/). If it’s not working, it’s likely that we used up our usage for the month, and you will have to install EditR locally.
 
 
 
