@@ -14,7 +14,9 @@ It consists of the algorithm implemented in the R statistical programming langua
 
 ![Example data loaded in EditR](./assets/editr-screenshot.png)
 
+## Try out EditR
 
+[**Click this link to try EditR live**](https://moriaritylab.shinyapps.io/editr-master/)
 
 ## Citation
 
