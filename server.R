@@ -365,7 +365,7 @@ shinyServer(
       edit.spread %>% 
         ggplot(aes(x = as.factor(index), y = focal.base)) + 
         geom_tile(data = edit.color, aes(fill = perc)) + 
-        geom_text(aes(label = round(perc, 1)), angle = 0, size = 4) +   
+        geom_text(aes(label = round(perc, 0)), angle = 0, size = 4) +   
         guides(fill = FALSE) + 
         scale_fill_continuous(low = "#f7a8a8", high = "#9acdee") + 
         scale_x_discrete(position = "top", labels = editing.df$guide.seq) + 
