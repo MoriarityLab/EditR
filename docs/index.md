@@ -12,7 +12,7 @@ It consists of the algorithm implemented in the R statistical programming langua
 
 
 
-![Example data loaded in EditR](./assets/editr-screenshot.png)
+![Example data loaded in EditR](./assets/editr_screenshot_v1.0.1.png)
 
 ## Try out EditR
 
