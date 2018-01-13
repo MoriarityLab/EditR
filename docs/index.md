@@ -16,15 +16,17 @@ It consists of the algorithm implemented in the R statistical programming langua
 
 ## Try out EditR
 
-[**Click this link to try EditR live**](https://moriaritylab.shinyapps.io/editr-master/)
+[**Click this link to try EditR live**](https://moriaritylab.shinyapps.io/editr_v10/)
 
 ## Citation
 
 
-If this software helps you -- please cite us!
+If this software helps you -- please cite us and spread the word!
 
 
-Kluesner M, Nedveck D, Lahr W, Moriarity B. Simple and cost effective quantitative assessment of base editing by quantification of Sanger trace fluorescence. *Nucleic Acid Research.* 2017. *In review*
+Kluesner M, Nedveck D, Lahr W, Moriarity B. Simple and cost effective quantitative assessment of base editing by quantification of Sanger trace fluorescence. *Nucleic Acid Research.* 2018. *In review*
+
+[Pre-print manuscript available on Bioarχiv](https://www.biorxiv.org/content/early/2017/11/05/213496)
 
 
 
@@ -38,7 +40,7 @@ You can use the R Shiny App in two ways: through and instance on shinyapps.io, o
 
 ### Testing it out on shinyapps.io
 
-We have [an instance on shinyapps.io here](https://moriaritylab.shinyapps.io/editr-master/). If it’s not working, it’s likely that we used up our usage for the month, and you will have to install EditR locally.
+We have [an instance on shinyapps.io here](https://moriaritylab.shinyapps.io/editr_v10/). If it’s not working, it’s likely that we used up our usage for the month, and you will have to install EditR locally.
 
 
 
