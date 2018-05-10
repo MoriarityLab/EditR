@@ -24,7 +24,7 @@ It consists of the algorithm implemented in the R statistical programming langua
 If this software helps you -- please cite us and spread the word!
 
 
-Kluesner M, Nedveck D, Lahr W, Moriarity B. Simple and cost effective quantitative assessment of base editing by quantification of Sanger trace fluorescence. *Nucleic Acid Research.* 2018. *In review*
+Kluesner M, Nedveck D, Lahr W, Moriarity B. EditR: A method to quantify base editing via Sanger sequencing. *The CRISPR Journal.* 2018. *In review*
 
 [Pre-print manuscript available on Bioarχiv](https://www.biorxiv.org/content/early/2017/11/05/213496)
 
