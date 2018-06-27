@@ -4,6 +4,8 @@ layout: default
 
 # EditR
 
+[**Click this link to try EditR live**](https://moriaritylab.shinyapps.io/editr_v10/)
+
 EditR is an algorithm for predicting potential editing in a guide RNA region from a single Sanger sequencing run. This allows users to estimate base editing efficiency quicker and cheaper than using deep sequencing.
 
 
@@ -14,20 +16,15 @@ It consists of the algorithm implemented in the R statistical programming langua
 
 ![Example data loaded in EditR](./assets/editr_screenshot_v1.0.1.png)
 
-## Try out EditR
-
-[**Click this link to try EditR live**](https://moriaritylab.shinyapps.io/editr_v10/)
-
 ## Citation
 
 
 If this software helps you -- please cite us and spread the word!
 
 
-Kluesner M, Nedveck D, Lahr W, Moriarity B. EditR: A method to quantify base editing via Sanger sequencing. *The CRISPR Journal.* 2018. *In review*
+Kluesner M, Nedveck D, Lahr W, Moriarity B. EditR: A method to quantify base editing via Sanger sequencing. *The CRISPR Journal.* 2018.
 
-[Pre-print manuscript available on Bioarχiv](https://www.biorxiv.org/content/early/2017/11/05/213496)
-
+[Publication available here!](https://www.liebertpub.com/doi/full/10.1089/crispr.2018.0014)
 
 
 ## Using the Shiny App
