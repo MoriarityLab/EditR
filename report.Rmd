@@ -190,15 +190,38 @@ edit.spread <- edit.long %>% spread(key = measure, value = value)
 
 edit.color <- edit.spread %>% filter(pval < p.val.cutoff)
 
-edit.spread %>% 
-  ggplot(aes(x = as.factor(index), y = focal.base)) + 
-  geom_tile(data = edit.color, aes(fill = perc)) + 
-  geom_text(aes(label = round(perc, 1)), angle = 0, size = 4) +   
-  guides(fill = FALSE) + 
-  scale_fill_continuous(low = "#f7a8a8", high = "#9acdee") + 
-  scale_x_discrete(position = "top", labels = editing.df$guide.seq) + 
-  labs(x = "Guide sequence", y = NULL) + 
-  theme(axis.ticks = element_blank())
+if(any(edit.color$adj.perc != 100)){
+edit.spread %>%
+        ggplot(aes(x = as.factor(index), y = focal.base)) + 
+        geom_tile(data = edit.color, aes(fill = adj.perc)) + 
+        geom_text(aes(label = round(perc, 0)), angle = 0, size = 5) +   
+        guides(fill = FALSE) + 
+        scale_fill_continuous(low = "#f7a8a8", high = "#9acdee") + 
+        scale_x_discrete(position = "top", labels = editing.df$guide.seq) + 
+        labs(x = NULL, y = NULL) + 
+        theme(axis.ticks = element_blank(),
+              axis.text=element_text(size=16),
+              plot.title = element_text(hjust = 0, size = 16),
+              plot.margin=unit(c(0,0,0,2), "cm"), #c(top, bottom, left, right)
+              panel.background = element_rect(fill = "transparent",colour = NA), # or theme_blank()
+              plot.background = element_rect(fill = "transparent",colour = NA)
+        ) +
+        coord_fixed(1)} else
+      {edit.spread %>%
+        ggplot(aes(x = as.factor(index), y = focal.base)) + 
+        geom_tile(data = edit.color, fill = "#9acdee") + 
+        geom_text(aes(label = round(perc, 0)), angle = 0, size = 5) +   
+        guides(fill = FALSE) + 
+        scale_x_discrete(position = "top", labels = editing.df$guide.seq) + 
+        labs(x = NULL, y = NULL) + 
+        theme(axis.ticks = element_blank(),
+              axis.text=element_text(size=16),
+              plot.title = element_text(hjust = 0, size = 16),
+              plot.margin=unit(c(0,0,0,2), "cm"), #c(top, bottom, left, right)
+              panel.background = element_rect(fill = "transparent",colour = NA), # or theme_blank()
+              plot.background = element_rect(fill = "transparent",colour = NA)
+        ) +
+        coord_fixed(1)}
 ```
 
 
@@ -251,4 +274,3 @@ dput(editing.df)
 
 
 *Report generated using EditR v`r editrversion`*
-
