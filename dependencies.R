@@ -12,6 +12,7 @@ install.packages("cowplot")
 install.packages("gridExtra")
 install.packages("rmarkdown")
 install.packages("plotly")
+install.packages("yaml")
 
 
 
@@ -19,6 +20,3 @@ install.packages("plotly")
 source("https://bioconductor.org/biocLite.R")
 biocLite("Biostrings")
 biocLite("sangerseqR")
-
-
-
