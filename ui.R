@@ -1,32 +1,37 @@
+# EditR UI
+editrversion <- "1.0.8"
+
 shinyUI(
   
   fluidPage(
 
-  titlePanel(paste0("EditR v", editrversion) ),
+  titlePanel(list(HTML('<a href="https://twin-cities.umn.edu/"><img src="http://majors.umn.edu/uploads/logos/30logo.png" class="img.unframed" align="right" alt="UMN" height="95" width="400"></a>'), 
+                  paste("EditR", editrversion)),
+             windowTitle="EditR: Edit Deconvolution by Inference of Traces in R"),
   
   sidebarPanel(
-    p("You will need to supply your Sanger sequencing results file, as well as the guide sequence.
-      Data are not stored on the server after the analysis is run."),
+    tags$head( tags$link(rel="stylesheet", type="text/css", href="styleupdates.css")),
+    tags$img(href = "https://www.cancer.umn.edu/bio/osteosarcoma-staff/branden-moriarity", src="https://image.ibb.co/bStZTb/editr_logo_v3.png", alt="EditR", width="90%", class="unframed", align="center"),
     checkboxInput("example", "Load Example Data", FALSE),
-    
     conditionalPanel(condition = "!input.example",
-                     p("Please upload your Sanger sequencing file here:"),
+                     p("Please upload your Sanger sequencing file here"),
                      fileInput(inputId = "file", 
                                label = 'Upload .ab1 File'),
-                     p("Please enter in your ~20bp guide sequence in 5'-3' orientation here. Should only contain: ACGT"),
+                     p("Please enter in your ~20bp guide sequence in 5'-3' orientation"),
                      textInput(inputId = 'guide',
                                label = 'Enter gRNA sequence'),
                      checkboxInput("guide.is.reverseComplement",
-                                   "Guide sequence is reverse complement", FALSE)
-                     ),
+                                   "Guide sequence is reverse complement", FALSE),
     
-    p("Specify custom amounts to trim the input sanger sequence by.
-      Check the QC plot of signal / noise post filtering to pick values -- mouse over the plot for index numbers.
-      Note: aggressive trimming may lead to inaccurate P-values, make sure to trim to the region that represents the majority of your sample."),
-    numericInput(inputId ="trim5", label = "5' start", value = NA),
-    numericInput(inputId ="trim3", label = "3' end", value = NA),
-    p("Please enter your cutoff probability (p-value for significance), see instructions for details"),
-      numericInput("pvalcutoff", "P-value cutoff:", 0.01, min = 0, max = 1)
+                     p("Manually enter the 5' start and 3' end of the good sequencing below to trim the sanger sequening read. To determine which values to use, click the 'Data QC' tab and cursor over the 'Data QA: Signal and noise plot'."),
+                     p("For example, if clean sequencing starts at the 56th bp of the chromatogram and ends at 405th bp, enter those respective values."),
+                     numericInput(inputId ="trim5", label = "5' start", value = NA),
+                     numericInput(inputId ="trim3", label = "3' end", value = NA),
+                     p("Note: aggressive trimming may lead to inaccurate P-values, make sure to trim to the region that represents the majority of your sample."),
+                     numericInput("pvalcutoff", "P-value cutoff:", 0.01, min = 0, max = 1),
+                     p("Please enter your cutoff probability (p-value for significance), see instructions for details")
+        ),
+      p("Data are not stored on the server after the analysis is ran.")
   ),
   
   mainPanel(
@@ -77,15 +82,18 @@ shinyUI(
                 ),
                 
                 #### Predicted editing tab
-                tabPanel("Predicted Editing", 
-                         h2("Table plot"),
-                         plotOutput(outputId = "editing.table.plot"),
-                         p("This plot shows the percent area of the signal for each base (ACGT) at each position along
+                tabPanel("Predicted Editing",
+                         h2("gRNA Protospacer"),
+                         fluidRow(
+                           verticalLayout(
+                           plotOutput(outputId = "chromatogram_two"),
+                           plotOutput(outputId = "editing.table.plot", width = "93.5%"))),
+                          p("The top plot is the chromatogram of the protospacer. Highlighted peaks indicate double peaks were detected, however a peak may still be significant even if not highlighted. \nThe bottom plot shows the percent area of the signal for each base (ACGT) at each position along
                            the guide. Bases that are significantly different from the noise are colored in, color coded
                            relative to their percent area. Most positions of the guide only have one base colored in, as there
-                           this is due to only one peak being present at that position. In the case of editing, there are more 
+                           this is due to only one peak being present at that position. In the case of editing, there are more
                            than one base colored in at a position."),
-                         h3("Base info"),
+                         h2("Base info"),
                          p("You can use the information in the following table to better understand the values given for the percent
                            area in the 'Table plot'. The average percent signal shows you the average percent area (area of signal / all
                            other base areas), and (100 - average percent signal) shows you how much noise is present during the reading 
