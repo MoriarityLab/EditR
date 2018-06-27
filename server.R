@@ -348,30 +348,91 @@ shinyServer(
     })
     
     ##############################################
+    output$chromatogram_two <- renderPlot({
+      guide.coord <- guide.coordReactive()
+      input.basecalls <- input.basecallsReactive()
+      chromatogram(obj = input.basecalls,
+                   showcalls = "none",
+                   showhets = FALSE,
+                   trim5 = (guide.coord$start-1), trim3 = length(input.basecalls@primarySeq) - guide.coord$end,
+                   width = (guide.coord$end - guide.coord$start + 1))
+    })
+    
     output$editing.table.plot <- renderPlot({
       editing.df <- editing.Reactive()
+      sangs.filt <- sangs.filtReactive()
       null.m.params <- nullparams.Reactive()
       p.val.cutoff <- p.val.Reactive()
       
+      #### Repeat code for getting avg.base from base.infoReactive
+      # finding the average percent signal for each base
+      avg.base <- sangs.filt %>% gather(key = focal.base, value = value, 
+                                        A.area:T.area, A.perc:T.perc) %>%
+        separate(col = focal.base, into = c("focal.base", "measure")) %>% 
+        spread(key = measure, value = value) %>% 
+        filter(base.call == focal.base) %>% 
+        group_by(focal.base) %>% 
+        summarize(avg.percsignal = mean(perc),
+                  avg.areasignal = mean(area))
+      
+      # finding the model mu
+      mul <- lapply(null.m.params, FUN = function(x){x$mu})
+      mulvec <- c(a = mul$a, c = mul$c, g = mul$g, t = mul$t)
+      ####
+      
+      ### Reshape data
       
       edit.long <- editing.df %>% gather(key = focal.base, value = value, 
                                          A.area:T.area, A.perc:T.perc, T.pval:A.pval) %>%
         separate(col = focal.base, into = c("focal.base", "measure"))
       
-      edit.spread <- edit.long %>% spread(key = measure, value = value)
+      edit.spread <- edit.long %>% 
+        spread(key = measure, value = value) 
       
-      edit.color <- edit.spread %>% filter(pval < p.val.cutoff)
+      color.cutoff = min(avg.base$avg.percsignal - mulvec)
+      edit.color <- edit.spread %>% 
+        mutate(adj.perc = {ifelse(perc >= color.cutoff,
+                                  100,
+                                  perc)
+        } %>% as.numeric) %>%
+        filter(pval < p.val.cutoff)
       
-      edit.spread %>% 
+
+      
+      #### make editing_table
+      if(any(edit.color$adj.perc != 100)){
+edit.spread %>%
         ggplot(aes(x = as.factor(index), y = focal.base)) + 
-        geom_tile(data = edit.color, aes(fill = perc)) + 
-        geom_text(aes(label = round(perc, 0)), angle = 0, size = 4) +   
+        geom_tile(data = edit.color, aes(fill = adj.perc)) + 
+        geom_text(aes(label = round(perc, 0)), angle = 0, size = 5) +   
         guides(fill = FALSE) + 
         scale_fill_continuous(low = "#f7a8a8", high = "#9acdee") + 
         scale_x_discrete(position = "top", labels = editing.df$guide.seq) + 
-        labs(x = "Guide sequence", y = NULL) + 
-        theme(axis.ticks = element_blank())
-      
+        labs(x = NULL, y = NULL) + 
+        theme(axis.ticks = element_blank(),
+              axis.text=element_text(size=16),
+              plot.title = element_text(hjust = 0, size = 16),
+              plot.margin=unit(c(0,0,0,2), "cm"), #c(top, bottom, left, right)
+              panel.background = element_rect(fill = "transparent",colour = NA), # or theme_blank()
+              plot.background = element_rect(fill = "transparent",colour = NA)
+        ) +
+        coord_fixed(1)} 
+      else
+      {edit.spread %>%
+        ggplot(aes(x = as.factor(index), y = focal.base)) + 
+        geom_tile(data = edit.color, fill = "#9acdee") + 
+        geom_text(aes(label = round(perc, 0)), angle = 0, size = 5) +   
+        guides(fill = FALSE) + 
+        scale_x_discrete(position = "top", labels = editing.df$guide.seq) + 
+        labs(x = NULL, y = NULL) + 
+        theme(axis.ticks = element_blank(),
+              axis.text=element_text(size=16),
+              plot.title = element_text(hjust = 0, size = 16),
+              plot.margin=unit(c(0,0,0,2), "cm"), #c(top, bottom, left, right)
+              panel.background = element_rect(fill = "transparent",colour = NA), # or theme_blank()
+              plot.background = element_rect(fill = "transparent",colour = NA)
+        ) +
+        coord_fixed(1)}
     })
     
 ###########################################
