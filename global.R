@@ -1,4 +1,5 @@
 # version
+editrversion = "1.0.8"
 
 # loading all the packages into the global environment
 
