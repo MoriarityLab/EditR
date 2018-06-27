@@ -1,5 +1,4 @@
 # version
-editrversion <- "1.0.0"
 
 # loading all the packages into the global environment
 
@@ -118,7 +117,7 @@ GetNullDistModel <- function(sangs.filt, guide.coord)
   
   
   n.models <-lapply(nvals, FUN = function(x){
-    gamlss(x~1, family = ZAGA)
+    gamlss((x)~1, family = ZAGA)
   })
   
   null.m.params <- lapply(n.models, FUN = function(x){
