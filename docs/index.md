@@ -2,9 +2,9 @@
 layout: default
 ---
 
-# EditR
+# [**EditR**](https://moriaritylab.shinyapps.io/editr_v10/)
 
-[**Click this link to try EditR live**](https://moriaritylab.shinyapps.io/editr_v10/)
+[**Click here to try out EditR!**](https://moriaritylab.shinyapps.io/editr_v10/)
 
 EditR is an algorithm for predicting potential editing in a guide RNA region from a single Sanger sequencing run. This allows users to estimate base editing efficiency quicker and cheaper than using deep sequencing.
 
