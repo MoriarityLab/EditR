@@ -14,6 +14,7 @@ library(cowplot)
 library(gridExtra)
 library(rmarkdown)
 library(plotly)
+library(yaml)
 
 
 ## Defining functions
