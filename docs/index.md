@@ -8,8 +8,6 @@ layout: default
 
 EditR is an algorithm for predicting potential editing in a guide RNA region from a single Sanger sequencing run. This allows users to estimate base editing efficiency quicker and cheaper than using deep sequencing.
 
-** May 12th, 2021 Update ** The EditR is currently down for maintenance and will be available as soon as maintenance is completed. We apologize for the delay in your analysis.
-
 
 
 It consists of the algorithm implemented in the R statistical programming language and provided as a Shiny app built to make this algorithm easy to use.
