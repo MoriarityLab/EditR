@@ -1,6 +1,6 @@
 # EditR
  
-The purpose of this software is to predict where a base edit occurred. Simply, provide your guide RNA protospacer sequence (~ 20bp) and a .ab1 Sanger sequencing file of the edited region (~300-700bp). EditR will then generate distributions of the expected level of noise based on your sample. From these expectations, EditR assigns a probability that each background peak in your guide region is from noise -- in other a words a *P*-value for it being a product of base editing as opposed to noise.
+The goal of this software is to predict where a base edit occurred. Simply, provide your guide RNA protospacer sequence (~ 20bp) and a .ab1 Sanger sequencing file of the edited region (~300-700bp). EditR will then generate distributions of the expected level of noise based on your sample. From these expectations, EditR assigns a probability that each background peak in your guide region is from noise -- in other a words a *P*-value for it being a product of base editing as opposed to noise.
 
 ## How to use EditR
 
