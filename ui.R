@@ -1,11 +1,11 @@
 # EditR UI
-editrversion <- "1.0.8"
+editrversion <- "1.0.10"
 
 shinyUI(
   
   fluidPage(
 
-  titlePanel(list(HTML('<a href="https://twin-cities.umn.edu/"><img src="http://majors.umn.edu/uploads/logos/30logo.png" class="img.unframed" align="right" alt="UMN" height="95" width="400"></a>'), 
+  titlePanel(list(HTML('<a href="https://twin-cities.umn.edu/"><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Minnesota_Golden_Gophers_logo.svg/2560px-Minnesota_Golden_Gophers_logo.svg.png class="img.unframed" align="right" alt="UMN" height="95" width="170"></a>'), 
                   paste("EditR", editrversion)),
              windowTitle="EditR: Edit Deconvolution by Inference of Traces in R"),
   
