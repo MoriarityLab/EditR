@@ -1,5 +1,5 @@
 # version
-editrversion = "1.0.8"
+editrversion = "1.0.10"
 
 # loading all the packages into the global environment
 
@@ -117,9 +117,26 @@ GetNullDistModel <- function(sangs.filt, guide.coord)
   nvals$g <- sangs.filt %>% filter(base.call != "G") %>% select(G.perc) %>% unlist()
   nvals$a <- sangs.filt %>% filter(base.call != "A") %>% select(A.perc) %>% unlist()
   
+  # Updated 3.26.19 to account for ultra clean sequencing
+  replacement_zaga = c(rep(0, 989), 0.00998720389310502, 0.00998813447664401,0.009992887520785,
+                       0.00999585366068316, 0.00999623914632598, 0.00999799013526835, 0.010001499423723,
+                       0.0100030237039207, 0.0100045782875701, 0.0100048452355807, 0.0100049548867042)
   
-  n.models <-lapply(nvals, FUN = function(x){
-    gamlss((x)~1, family = ZAGA)
+  n.models <- lapply(nvals, FUN = function(x){
+    set.seed(1)
+    if((unique(x)[1] == 0 & length(unique(x)) == 1) |
+       (unique(x)[1] == 0 & length(unique(x)) == 2 & table(x)[2] == 1))
+    {x = replacement_zaga; message("Replacement vector used for low noise.")} # add noise if all 0s, or all 0s and one other value.
+    tryCatch(gamlss((x)~1, family = ZAGA), error=function(e) # Progressively step up the mu.start if it fails
+      tryCatch(gamlss((x)~1, family = ZAGA, mu.start = 1), error=function(e) 
+        tryCatch(gamlss((x)~1, family = ZAGA, mu.start = 2), error=function(e) 
+          tryCatch(gamlss((x)~1, family = ZAGA, mu.start = 3), error=function(e) # additional step added.
+            gamlss((x)~1, family = ZAGA, mu.start = mean(x))
+          )
+        )
+      )
+    )
+    # throws errors when a completely 0 vector
   })
   
   null.m.params <- lapply(n.models, FUN = function(x){
