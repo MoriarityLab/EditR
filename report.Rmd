@@ -274,3 +274,4 @@ dput(editing.df)
 
 
 *Report generated using EditR v`r editrversion`*
+
