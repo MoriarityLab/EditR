@@ -10,7 +10,7 @@ install.packages("tidyr")
 install.packages("ggplot2")
 install.packages("cowplot")
 install.packages("gridExtra")
-install.packages("rmarkdown")
+install.packages("rmarkdown") #07.06.2022 if errors that there was no markdown package, try 'install.packages("markdown")'
 install.packages("plotly")
 install.packages("yaml")
 
