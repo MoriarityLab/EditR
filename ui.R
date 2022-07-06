@@ -1,5 +1,5 @@
 # EditR UI
-editrversion <- "1.0.10"
+editrversion <- "1.0.10" 
 
 shinyUI(
   
