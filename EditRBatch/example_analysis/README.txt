@@ -5,7 +5,7 @@ Welcome! This Rmarkdown file allows for the batch analysis of base editing from 
   - To use set up a directory structured like the `example_analysis` directory
       - `example_analysis`
           - `README.txt`
-          - `multiEditRBatch.Rmd` (This file)
+          - `multiEditRBatch.Rmd`
           - `global.R`
           - `parameters.xlsx`
           - `files`
