@@ -1,0 +1,194 @@
+---
+title: "EditR Batch v1.0.0"
+author: "Mitchell Kluesner"
+date: "`r format(Sys.time(), '%d %B, %Y, %H:%M')`"
+knit: (function(inputFile, encoding) { 
+      rmarkdown::render(inputFile,
+                        encoding=encoding, 
+                        output_file=file.path(dirname(inputFile), 'output/analysis.html')) })
+output:
+  html_document:
+    fig_height: 6
+    fig_width: 10
+    toc: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+  pdf_document:
+    toc: no
+  word_document:
+    toc: no
+---
+
+```{r}
+#############################################################################
+# Copyright (C) 2023 Mitchell Kluesner (mkluesne@fredhutch.org)
+#  
+# This file is part of multiEditR (Multiple Edit Deconvolution by Inference of Traces in R)
+# 
+# Please only copy and/or distribute this script with proper citation of 
+# multiEditR publication
+#############################################################################
+```
+
+# README
+
+README.txt
+
+Welcome! This Rmarkdown file allows for the batch analysis of base editing from sanger sequencing files
+
+  - To use set up a directory structured like the `example_analysis` directory
+      - `example_analysis`
+          - `README.txt`
+          - `multiEditRBatch.Rmd` (This file)
+          - `global.R`
+          - `parameters.xlsx`
+          - `files`
+          - `.ab1` or `.fasta` files to be used in the analysis
+          - `output`
+              - `example_analysis_analysis_data.tsv`, `example_analysis_model_fit.tsv`, and `analysis.html` will be created after running `EditRBatch.Rmd`
+          
+  - Do not change the directory structure, as it will disrupt the analysis!
+      
+How to use:
+
+1) Make a copy of the parent `example_analysis` directory, and rename as relevant
+     - for e.g. rename to `MGK001`, etc.
+     
+2) Open `global.R` and install all the packages under libraries if not already installed
+
+3) Open `parameters.xlsx`, edit and save the input data
+    - `sample_name` column will be used to identify data in analysis
+    - For file names, just use the terminal file name as they'd appear in the final directory
+    
+4) Move all files referenced in `parameters.xlsx` to the `files` directory
+
+5) Open `EditRBatch.Rmd` in RStudio
+
+6) Edit `analysis_directory = "SYSTEM_PATH"` to reflect the system path to the parent analysis directory
+
+7) Knit `EditRBatch.Rmd`
+
+8) Open `example_analysis/output/analysis.html` to observe results. Scroll down to Individual results to observe sample wise analysis.
+
+**Disclaimer: This is a preliminary script, with virtually no error handling, so extensive trouble shooting may be required**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+options(digits = 3)
+```
+
+# Set analysis directory
+```{r,message = FALSE}
+analysis_directory = "/Users/kluesner/Desktop/Research/For\ Others/James\ Thomas/example_analysis"
+
+analysis_name = tail(unlist(strsplit(analysis_directory, "/")), 1)
+source(paste0(analysis_directory, "/global.R"))
+```
+
+```{r}
+print(analysis_directory)
+print(analysis_name)
+```
+
+# Analysis
+```{r, message = TRUE}
+params.tbl = readxl::read_excel(paste0(analysis_directory, "/parameters.xlsx"),
+                            col_names = c("sample_name", "sample_file", "ctrl_file", "motif",
+                                          "motif_fwd","wt", "edit", "ctrl_seq_fwd", "use_ctrl_seq",
+                                          "p_value"), 
+                            skip = 1) %>%
+  rowwise() %>%
+  mutate(sample_file = paste0(analysis_directory, "/files/", sample_file),
+         ctrl_file = paste0(analysis_directory, "/files/", ctrl_file)) %>%
+  rowid_to_column("id") %>%
+  ungroup
+
+analysis = lapply(X = 1:nrow(params.tbl), FUN = runEditRBatch, params = params.tbl)
+# analysis = lapply(X = 1:2, FUN = runEditRBatch, params = params.tbl)
+```
+
+# Compiled Results
+## Editing data
+```{r}
+data.tbl = analysis %>% lapply(., "[[", 1) %>%
+  plyr::ldply(., "tibble")
+
+write_tsv(data.tbl, paste0(analysis_directory, "/output/summary_data.tsv"))
+
+data.tbl %>%
+  mutate_if(is.numeric, round, digits=3) %>%
+  DT::datatable()
+```
+
+## Model fit data
+```{r}
+model_fit.tbl = analysis %>% lapply(., "[[", 2) %>%
+  plyr::ldply(., "tibble") %>%
+  mutate(base = paste0(base, " fillibens coef.")) %>%
+  dplyr::select(sample_name, base, fillibens) %>%
+  pivot_wider(names_from = base, values_from = fillibens)
+
+write_tsv(model_fit.tbl, paste0(analysis_directory, "/output/model_fit_data.tsv"))
+
+model_fit.tbl %>%
+  mutate_if(is.numeric, round, digits=3) %>%
+  DT::datatable()
+```
+
+# Individual Results
+```{r, results="asis", echo = FALSE}
+
+library(htmltools)
+
+for(i in 1:nrow(params.tbl)){
+  
+  cat("\n") 
+  cat("##", params.tbl[i,'sample_name'] %>% unlist, "\n") 
+  
+  cat("\n", "sample file:",
+      params.tbl[i,'sample_file'] %>% unlist %>% gsub(analysis_directory, "", .), "\n")
+  
+  cat("\n", "control file:",
+      params.tbl[i,'ctrl_file'] %>% unlist %>% gsub(analysis_directory, "", .), "\n")
+  
+  cat("\n", "sgRNA:",
+      params.tbl[i,'motif'] %>% unlist, "\n") 
+  
+  cat("\n") 
+  cat("###", "Chromatograms", "\n") # Create second level headings with the
+   print(
+  analysis[[i]][[3]]
+)
+   
+  print(
+  analysis[[i]][[4]]
+)
+  cat("\n") 
+  
+  cat("\n") 
+  cat("###", "Editing Data", "\n")
+   print(
+   tagList(
+    analysis[[i]][[1]] %>%
+      mutate_if(is.numeric, round, digits=3) %>%
+      dplyr::select(-sample_name, -motif, -ctrl_max_base) %>%
+      DT::datatable()
+   )
+  )
+   
+  cat("\n") 
+  cat("###", "Model parameters", "\n")
+   print(
+   tagList(
+        analysis[[i]][[2]] %>%
+      mutate_if(is.numeric, round, digits=3) %>%
+      DT::datatable()
+   )
+  )
+  
+  cat("\n")
+  
+}
+
+```
